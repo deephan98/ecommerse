@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error - Product Not Found</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .error-container {
+      max-width: 600px;
+      margin: 100px auto;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    
+    .error-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+    
+    .error-title {
+      font-size: 2rem;
+      color: #dc2626;
+      margin-bottom: 15px;
+    }
+    
+    .error-message {
+      color: #6b7280;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+    
+    .back-links {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .back-link {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .back-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="error-container">
+    <div class="error-icon">❌</div>
+    <h1 class="error-title">Oops! Something went wrong</h1>
+    <p class="error-message"><%= message || 'The page you are looking for could not be found.' %></p>
+    
+    <div class="back-links">
+      <a href="/" class="back-link">← Back to Home</a>
+      <a href="/products" class="back-link">← Browse Products</a>
+    </div>
+  </div>
+</body>
+</html> 

@@ -1,0 +1,77 @@
+[
+  {
+    "id": "62ebdc33-e19c-4959-a055-3a4d8cad27ce",
+    "email": "admin@example.com",
+    "password": "admin123",
+    "name": "Admin User",
+    "phone": "(555) 123-4567",
+    "address": {
+      "street": "123 Admin St",
+      "city": "Admin City",
+      "state": "CA",
+      "zip": "90210",
+      "country": "USA"
+    },
+    "isAdmin": true
+  },
+  {
+    "id": "90e18b27-1e0d-4eef-9678-b748bd3d530b",
+    "name": "Kendi hIro",
+    "email": "kendihiro@gmail.com",
+    "password": "@Data7437admin123",
+    "phone": "(234) 678-2345",
+    "address": {
+      "street": "3401 N.Miami Ave",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33127",
+      "country": "USA"
+    },
+    "isAdmin": false
+  },
+  {
+    "id": "83c740c8-0884-4637-8f9a-2c6e0dc9cdcb",
+    "name": "Derick Akriket",
+    "email": "derickakriket@gmail.com",
+    "password": "@Data7437",
+    "phone": "(345) 678-4567",
+    "address": {
+      "street": "01000 Kenyatta Avenue",
+      "city": "Nairobi",
+      "state": "CA",
+      "zip": "34567",
+      "country": "USA"
+    },
+    "isAdmin": false
+  },
+  {
+    "id": "291b8726-3462-4e51-b097-155884b590af",
+    "name": "Test Superuser",
+    "email": "testadmin@example.com",
+    "password": "testpass123",
+    "phone": "(555) 000-0000",
+    "address": {
+      "street": "Admin Address",
+      "city": "Admin City",
+      "state": "CA",
+      "zip": "90210",
+      "country": "USA"
+    },
+    "isAdmin": true
+  },
+  {
+    "id": "4515d522-acc3-42a0-a07d-96e424e24a6b",
+    "name": "Derick Akriket",
+    "email": "derickakruuiiket@gmail.com",
+    "password": "Control12@",
+    "phone": "(345) 678-4562",
+    "address": {
+      "street": "123 Maine Dr",
+      "city": "Napa",
+      "state": "CA",
+      "zip": "34567",
+      "country": "USA"
+    },
+    "isAdmin": false
+  }
+]

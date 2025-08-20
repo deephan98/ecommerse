@@ -1,0 +1,54 @@
+[
+  {
+    "id": "e6b20146-c7ce-46e3-a950-08db7495eb6c",
+    "date": "2025-08-20T14:18:37.061Z",
+    "items": [
+      {
+        "id": "93bd2e25-208a-461e-8d1b-0d5bbae1c490",
+        "productId": "557ac961-23d7-4e8e-9820-0580114a5897",
+        "product": {
+          "id": "557ac961-23d7-4e8e-9820-0580114a5897",
+          "name": "Coffer Maker",
+          "price": 150,
+          "description": "Selling at only $200 – brand new Breville Barista Express espresso machine (still sealed in box). Features a stainless-steel build, built-in conical burr grinder, dose control, steam wand and pressure gauge for professional-quality espresso, cappuccino & latte at home",
+          "images": [
+            "/img/43753566-2f3e-4106-9edb-1cad9ad2076c.jpeg",
+            "/img/005aedd8-a130-4b1a-9427-8c4175bcd631.jpeg",
+            "/img/aea799d5-3d09-460d-9cde-93d9d9f60d3b.jpeg"
+          ]
+        },
+        "quantity": 1,
+        "itemTotal": 150
+      }
+    ],
+    "customer": {
+      "id": "4515d522-acc3-42a0-a07d-96e424e24a6b",
+      "name": "Derick Akriket",
+      "email": "derickakruuiiket@gmail.com",
+      "phone": "(345) 678-4562",
+      "address": {
+        "street": "123 Maine Dr",
+        "city": "Napa",
+        "state": "CA",
+        "zip": "34567",
+        "country": "USA"
+      },
+      "cardDetails": {
+        "cardNumber": "3454 6546 7657 5676",
+        "cardName": "Derick Akriket",
+        "expMonth": "01",
+        "expYear": "29",
+        "cvv": "265",
+        "zipCode": "33127"
+      }
+    },
+    "totals": {
+      "subtotal": 150,
+      "tax": 12,
+      "total": 162
+    },
+    "status": "completed",
+    "paymentMethod": "Credit Card",
+    "notes": "Payment processed successfully with any card details"
+  }
+]

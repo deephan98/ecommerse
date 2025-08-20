@@ -1,0 +1,2002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Exclusive Design</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    /* Enhanced Header */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 25px 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      animation: slideDown 0.8s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+      animation: shimmer 3s infinite;
+    }
+    
+    header h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 10px;
+    }
+    
+    header p {
+      color: #666;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Session Status Indicator */
+    .session-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .status-indicator {
+      font-size: 1.2rem;
+      animation: pulse 2s infinite;
+    }
+    
+    .status-indicator.active {
+      color: #4ade80;
+      animation: none;
+    }
+    
+    .status-indicator.inactive {
+      color: #ef4444;
+      animation: none;
+    }
+    
+    .status-text {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    /* Enhanced Navigation */
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease-out 0.3s both;
+    }
+    
+    .nav-tab {
+      padding: 15px 30px;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      font-weight: 600;
+      color: #667eea;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .nav-tab::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .nav-tab:hover::before {
+      left: 100%;
+    }
+    
+    .nav-tab:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .nav-tab.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Enhanced Tab Content */
+    .tab-content {
+      display: none;
+      animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Enhanced Forms */
+    .form-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: clamp(25px, 4vw, 40px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+      animation: slideInLeft 0.8s ease-out 0.5s both;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .form-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+    
+    .form-container:hover::before {
+      transform: scaleX(1);
+    }
+    
+    .form-container h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-bottom: 25px;
+      color: #333;
+      text-align: center;
+      position: relative;
+    }
+    
+    .form-container h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+      animation: fadeInUp 0.6s ease-out both;
+    }
+    
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .form-group:nth-child(4) { animation-delay: 0.4s; }
+    .form-group:nth-child(5) { animation-delay: 0.5s; }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #333;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      background: rgba(255, 255, 255, 0.9);
+      transition: all 0.3s ease;
+      color: #333;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: #667eea;
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+      background: white;
+      transform: translateY(-2px);
+    }
+    
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    .file-input-container {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+    }
+    
+    .file-input-container input[type=file] {
+      position: absolute;
+      left: -9999px;
+    }
+    
+    .file-input-label {
+      display: block;
+      padding: 15px 20px;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border: 2px dashed #667eea;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #667eea;
+      font-weight: 600;
+    }
+    
+    .file-input-label:hover {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-color: #667eea;
+      transform: translateY(-2px);
+    }
+    
+    /* Enhanced Submit Button */
+    .btn {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 18px 30px;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-weight: 700;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+      margin-top: 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .btn:hover::before {
+      left: 100%;
+    }
+    
+    .btn:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+    }
+    
+    /* Enhanced Product List */
+    .product-list {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: clamp(25px, 4vw, 40px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      animation: slideInRight 0.8s ease-out 0.6s both;
+    }
+    
+    .product-list h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-bottom: 25px;
+      color: #333;
+      text-align: center;
+      position: relative;
+    }
+    
+    .product-list h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+    
+    .product-item {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: all 0.4s ease;
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out both;
+    }
+    
+    .product-item:nth-child(1) { animation-delay: 0.1s; }
+    .product-item:nth-child(2) { animation-delay: 0.2s; }
+    .product-item:nth-child(3) { animation-delay: 0.3s; }
+    
+    .product-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .product-item:hover::before {
+      left: 100%;
+    }
+    
+    .product-item:hover {
+      border-color: #667eea;
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.1);
+    }
+    
+    .product-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .product-name {
+      font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+      font-weight: 600;
+      color: #333;
+      flex: 1;
+    }
+    
+    .product-price {
+      font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+      font-weight: 700;
+      color: #667eea;
+    }
+    
+    .product-description {
+      color: #666;
+      margin-bottom: 15px;
+      line-height: 1.6;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+    }
+    
+    .product-actions {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .btn-small {
+      padding: 10px 20px;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      display: inline-block;
+      text-align: center;
+      min-width: 80px;
+    }
+    
+    .btn-edit {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+      box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+    }
+    
+    .btn-edit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
+    }
+    
+    .btn-delete {
+      background: linear-gradient(135deg, #dc3545, #c82333);
+      color: white;
+      box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+    }
+    
+    .btn-delete:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(220, 53, 69, 0.4);
+    }
+    
+    .btn-home {
+      background: linear-gradient(135deg, #6c757d, #495057);
+      color: white;
+      box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+    }
+    
+    .btn-home:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(108, 117, 125, 0.4);
+    }
+    
+    /* Enhanced Superuser Management */
+    .superuser-form {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: clamp(25px, 4vw, 40px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+      animation: slideInLeft 0.8s ease-out 0.7s both;
+    }
+    
+    .current-superusers {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: clamp(25px, 4vw, 40px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      animation: slideInRight 0.8s ease-out 0.8s both;
+    }
+    
+    .superusers-list {
+      display: grid;
+      gap: 20px;
+      margin-top: 25px;
+    }
+    
+    .superuser-card {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: 15px;
+      padding: 20px;
+      border: 2px solid transparent;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .superuser-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .superuser-card:hover::before {
+      left: 100%;
+    }
+    
+    .superuser-card:hover {
+      border-color: #667eea;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.1);
+    }
+    
+    .superuser-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .superuser-details h4 {
+      font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+      color: #333;
+      margin-bottom: 5px;
+    }
+    
+    .superuser-details p {
+      color: #666;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+    }
+    
+    .superuser-status {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      font-weight: 600;
+    }
+    
+    /* Enhanced Floating Elements */
+    .floating-element {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+    
+    .floating-element:nth-child(1) {
+      top: 15%;
+      left: 8%;
+      animation-delay: 0s;
+    }
+    
+    .floating-element:nth-child(2) {
+      top: 70%;
+      right: 12%;
+      animation-delay: 2s;
+    }
+    
+    .floating-element:nth-child(3) {
+      bottom: 15%;
+      left: 15%;
+      animation-delay: 4s;
+    }
+    
+    /* Enhanced Animations */
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      33% {
+        transform: translateY(-15px) rotate(120deg);
+      }
+      66% {
+        transform: translateY(8px) rotate(240deg);
+      }
+    }
+    
+    /* Enhanced Responsive Design */
+    @media (max-width: 1024px) {
+      .nav-tabs {
+        gap: 8px;
+      }
+      
+      .nav-tab {
+        padding: 12px 25px;
+        font-size: 0.9rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      
+      .nav-tabs {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .nav-tab {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .product-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .product-actions {
+        justify-content: center;
+      }
+      
+      .superuser-info {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .form-container,
+      .product-list,
+      .superuser-form,
+      .current-superusers {
+        padding: 20px;
+      }
+      
+      .btn {
+        padding: 16px 25px;
+        font-size: 1rem;
+      }
+      
+      .btn-small {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+      }
+    }
+    
+    /* Enhanced Loading States */
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      margin: -10px 0 0 -10px;
+      border: 2px solid #667eea;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Orders Management Styles */
+    
+    /* Order Controls */
+    .orders-controls {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .sort-controls, .search-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .sort-controls label {
+      font-weight: 600;
+      color: #667eea;
+    }
+    
+    .sort-controls select {
+      padding: 8px 15px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      background: white;
+      color: #333;
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+    }
+    
+    .sort-controls select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    .search-controls input {
+      padding: 8px 15px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      background: white;
+      color: #333;
+      font-size: 14px;
+      min-width: 250px;
+      transition: border-color 0.3s ease;
+    }
+    
+    .search-controls input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    /* Responsive Design for Order Controls */
+    @media (max-width: 768px) {
+      .orders-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+      }
+      
+      .sort-controls, .search-controls {
+        justify-content: center;
+      }
+      
+      .search-controls input {
+        min-width: auto;
+        width: 100%;
+      }
+      
+      .order-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+      }
+      
+      .order-actions {
+        align-self: flex-end;
+      }
+    }
+    
+    .orders-list {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      max-height: 70vh;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+    
+    .order-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+    }
+    
+    .order-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f1f5f9;
+    }
+    
+    .order-info h4 {
+      margin: 0 0 8px 0;
+      color: #1e293b;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    
+    .order-date {
+      margin: 0 0 5px 0;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+    
+    .order-status {
+      margin: 0;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .order-status.completed {
+      background: #dcfce7;
+      color: #166534;
+    }
+    
+    .order-status.pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    .order-status.cancelled {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    
+    .order-total .total-amount {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #059669;
+    }
+    
+    .order-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .delete-order-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .delete-order-btn:hover {
+      background: #dc2626;
+      transform: scale(1.05);
+    }
+    
+    .delete-order-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .order-details {
+      display: grid;
+      gap: 20px;
+    }
+    
+    .order-items h5,
+    .customer-details h5,
+    .order-summary h5 {
+      margin: 0 0 15px 0;
+      color: #374151;
+      font-size: 1rem;
+      font-weight: 600;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 8px;
+    }
+    
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    
+    .order-item:last-child {
+      border-bottom: none;
+    }
+    
+    .item-name {
+      font-weight: 500;
+      color: #1f2937;
+      flex: 1;
+    }
+    
+    .item-quantity {
+      color: #6b7280;
+      margin: 0 15px;
+    }
+    
+    .item-price {
+      font-weight: 600;
+      color: #059669;
+    }
+    
+    .customer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    
+    .customer-section h6 {
+      margin: 0 0 10px 0;
+      color: #374151;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .customer-section p {
+      margin: 0 0 5px 0;
+      color: #4b5563;
+      font-size: 0.9rem;
+    }
+    
+    .customer-section p strong {
+      color: #1f2937;
+      font-weight: 600;
+    }
+    
+    .summary-grid {
+      display: grid;
+      gap: 10px;
+    }
+    
+    .summary-grid .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+    }
+    
+    .summary-grid .summary-item.total {
+      border-top: 2px solid #e5e7eb;
+      padding-top: 15px;
+      margin-top: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #059669;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .order-header {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .customer-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .order-card {
+        padding: 20px;
+      }
+    }
+
+    /* IP Address Tracking Styles */
+    .admin-section {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: clamp(25px, 4vw, 40px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+      animation: slideInLeft 0.8s ease-out 0.9s both;
+    }
+
+    .admin-section h3 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-bottom: 25px;
+      color: #333;
+      text-align: center;
+      position: relative;
+    }
+
+    .admin-section h3::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+
+    .section-controls {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-weight: 700;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+      text-align: center;
+      min-width: 180px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #dc3545, #c82333);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-weight: 700;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 25px rgba(220, 53, 69, 0.3);
+      text-align: center;
+      min-width: 180px;
+    }
+
+    .btn-danger:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(220, 53, 69, 0.4);
+    }
+
+    .ip-count {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-weight: 600;
+      color: #333;
+      margin-left: 20px;
+    }
+
+    .ip-table-container {
+      overflow-x: auto;
+    }
+
+    .ip-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .ip-table th,
+    .ip-table td {
+      padding: 15px 20px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .ip-table th {
+      background-color: #f5f5f5;
+      font-weight: 600;
+      color: #333;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .ip-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .ip-table tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    .copy-btn {
+      background: linear-gradient(135deg, #17a2b8, #138496);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 5px;
+    }
+
+    .copy-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(23, 162, 184, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Floating Background Elements -->
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    
+    <header>
+      <h1>Admin Panel</h1>
+      <p>Manage your products and superusers</p>
+      <div class="session-status" id="sessionStatus">
+        <span class="status-indicator" id="statusIndicator">●</span>
+        <span class="status-text" id="statusText">Session: Checking...</span>
+      </div>
+    </header>
+
+    <nav class="nav-tabs">
+      <button class="nav-tab active" onclick="showTab('product-management')">Product Management</button>
+      <button class="nav-tab" onclick="showTab('superuser-management')">Superuser Management</button>
+      <button class="nav-tab" onclick="showTab('orders-management')">Customer Orders</button>
+    </nav>
+
+    <!-- Product Management Tab -->
+    <div id="product-management" class="tab-content active">
+      <div class="form-container">
+      <h2>Create New Product</h2>
+        <form action="/admin/create" method="POST" enctype="multipart/form-data" id="createForm">
+        <div class="form-group">
+          <label for="name">Product Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" min="0" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="images">Images:</label>
+            <div class="file-input-container">
+              <label for="images" class="file-input-label">
+                📁 Choose Image Files (Multiple)
+              </label>
+              <input type="file" id="images" name="productImages" multiple accept="image/*">
+          </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="videos">Videos:</label>
+            <div class="file-input-container">
+              <label for="videos" class="file-input-label">
+                🎥 Choose Video Files (Multiple)
+              </label>
+              <input type="file" id="videos" name="productVideos" multiple accept="video/*">
+          </div>
+        </div>
+        
+        <button type="submit" class="btn">Create Product</button>
+      </form>
+    </div>
+
+      <div class="product-list">
+        <h2>Current Products</h2>
+        <% if (posts && posts.length > 0) { %>
+          <% posts.forEach((post, index) => { %>
+            <div class="product-item" data-id="<%= post.id %>">
+              <div class="product-header">
+                <h3 class="product-name"><%= post.name %></h3>
+              <div class="product-price">$<%= (typeof post.price === 'number' ? post.price.toFixed(2) : post.price) %></div>
+              </div>
+              <p class="product-description"><%= post.description %></p>
+              <div class="product-actions">
+                <a href="/admin/update/<%= post.id %>" class="btn-small btn-edit">Edit</a>
+                <button onclick="deleteProduct('<%= post.id %>')" class="btn-small btn-delete">Delete</button>
+                <button onclick="setHomeProduct('<%= post.id %>')" class="btn-small btn-home">Set as Home</button>
+              </div>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <p style="text-align: center; color: #666; font-style: italic;">No products available yet.</p>
+                <% } %>
+      </div>
+    </div>
+    
+    <!-- Superuser Management Tab -->
+    <div id="superuser-management" class="tab-content">
+      <div class="superuser-form">
+        <h2>Create New Superuser</h2>
+        <form id="superuserForm">
+          <div class="form-group">
+            <label for="superuserName">Full Name:</label>
+            <input type="text" id="superuserName" name="name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="superuserEmail">Email:</label>
+            <input type="email" id="superuserEmail" name="email" required>
+              </div>
+              
+          <div class="form-group">
+            <label for="superuserPassword">Password:</label>
+            <input type="password" id="superuserPassword" name="password" required>
+                </div>
+                
+          <button type="submit" class="btn">Create Superuser</button>
+        </form>
+      </div>
+
+      <div class="current-superusers">
+        <h2>Current Superusers</h2>
+        <div class="superusers-list">
+          <% if (users && users.length > 0) { %>
+            <% users.filter(user => user.isAdmin).forEach((user, index) => { %>
+              <div class="superuser-card">
+                <div class="superuser-info">
+                  <div class="superuser-details">
+                    <h4><%= user.name %></h4>
+                    <p><%= user.email %></p>
+                </div>
+                  <div class="superuser-status">Admin</div>
+              </div>
+            </div>
+          <% }); %>
+        <% } else { %>
+            <p style="text-align: center; color: #666; font-style: italic;">No superusers available.</p>
+        <% } %>
+        </div>
+      </div>
+    </div>
+    
+        <div id="orders-management" class="tab-content">
+      <h2>Customer Orders</h2>
+      
+      <!-- Sorting and Controls -->
+      <div class="orders-controls">
+        <div class="sort-controls">
+          <label for="sort-orders">Sort by:</label>
+          <select id="sort-orders" onchange="sortOrders()">
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="amount-high">Amount: High to Low</option>
+            <option value="amount-low">Amount: Low to High</option>
+          </select>
+        </div>
+        <div class="search-controls">
+          <input type="text" id="search-orders" placeholder="Search orders..." onkeyup="searchOrders()">
+        </div>
+      </div>
+      
+        <div class="orders-list" id="orders-container">
+            <% if (customerOrders && customerOrders.length > 0) { %>
+              <% customerOrders.forEach((order, index) => { %>
+            <div class="order-card">
+              <div class="order-header">
+                    <div class="order-info">
+                      <h4>Order #<%= order.id.substring(0, 8) %></h4>
+                      <p class="order-date"><%= new Date(order.date).toLocaleDateString() %></p>
+                      <p class="order-status <%= order.status %>"><%= order.status %></p>
+                    </div>
+                    <div class="order-total">
+                      <span class="total-amount">$<%= order.totals ? order.totals.total.toFixed(2) : '0.00' %></span>
+                    </div>
+                    <div class="order-actions">
+                      <button class="delete-order-btn" onclick="deleteOrder('<%= order.id %>')" title="Delete Order">
+                        🗑️
+                      </button>
+                    </div>
+              </div>
+              
+              <div class="order-details">
+                    <div class="order-items">
+                      <h5>Items Ordered:</h5>
+                      <% if (order.items && order.items.length > 0) { %>
+                        <% order.items.forEach(item => { %>
+                          <div class="order-item">
+                            <span class="item-name"><%= item.product.name %></span>
+                            <span class="item-quantity">×<%= item.quantity %></span>
+                            <span class="item-price">$<%= item.itemTotal.toFixed(2) %></span>
+                          </div>
+                        <% }); %>
+                      <% } else { %>
+                        <p>No items found</p>
+                      <% } %>
+                </div>
+                
+                    <div class="customer-details">
+                      <h5>Customer Information:</h5>
+                      <div class="customer-grid">
+                        <div class="customer-section">
+                          <h6>Personal Details:</h6>
+                  <p><strong>Name:</strong> <%= order.customer.name %></p>
+                  <p><strong>Email:</strong> <%= order.customer.email %></p>
+                  <p><strong>Phone:</strong> <%= order.customer.phone %></p>
+                        </div>
+                        
+                        <div class="customer-section">
+                          <h6>Address:</h6>
+                          <p><strong>Street:</strong> <%= order.customer.address.street %></p>
+                          <p><strong>City:</strong> <%= order.customer.address.city %></p>
+                          <p><strong>State:</strong> <%= order.customer.address.state %></p>
+                          <p><strong>ZIP:</strong> <%= order.customer.address.zip %></p>
+                          <p><strong>Country:</strong> <%= order.customer.address.country %></p>
+                        </div>
+                        
+                        <div class="customer-section">
+                          <h6>Payment Details:</h6>
+                          <p><strong>Card Name:</strong> <%= order.customer.cardDetails.cardName %></p>
+                  <p><strong>Card Number:</strong> <%= order.customer.cardDetails.cardNumber %></p>
+                  <p><strong>Expiry:</strong> <%= order.customer.cardDetails.expiry %></p>
+                  <p><strong>CVV:</strong> <%= order.customer.cardDetails.cvv %></p>
+                          <p><strong>ZIP Code:</strong> <%= order.customer.cardDetails.zipCode %></p>
+                </div>
+              </div>
+            </div>
+                    
+                    <div class="order-summary">
+                      <h5>Order Summary:</h5>
+                      <div class="summary-grid">
+                        <div class="summary-item">
+                          <span>Subtotal:</span>
+                          <span>$<%= order.totals ? order.totals.subtotal.toFixed(2) : '0.00' %></span>
+        </div>
+                        <div class="summary-item">
+                          <span>Tax (8%):</span>
+                          <span>$<%= order.totals ? order.totals.tax.toFixed(2) : '0.00' %></span>
+                        </div>
+                        <div class="summary-item total">
+                          <span>Total:</span>
+                          <span>$<%= order.totals ? order.totals.total.toFixed(2) : '0.00' %></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% }); %>
+      <% } else { %>
+              <p style="text-align: center; color: #666; font-style: italic;">No orders available.</p>
+      <% } %>
+          </div>
+    </div>
+
+        <!-- IP Address Tracking Section -->
+        <div class="admin-section">
+          <h3>🌐 Visitor IP Addresses</h3>
+          <div class="section-controls">
+            <button onclick="refreshIPs()" class="btn btn-primary">🔄 Refresh</button>
+            <button onclick="clearIPs()" class="btn btn-danger">🗑️ Clear All</button>
+            <span class="ip-count">Total Visits: <span id="ipCount">0</span></span>
+          </div>
+          
+          <div class="ip-table-container">
+            <table class="ip-table">
+              <thead>
+                <tr>
+                  <th>IP Address</th>
+                  <th>Session Cookie</th>
+                  <th>Timestamp</th>
+                  <th>Page Visited</th>
+                  <th>User Agent</th>
+                  <th>Referer</th>
+                </tr>
+              </thead>
+              <tbody id="ipTableBody">
+                <!-- IP data will be populated here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+  </div>
+
+  <script>
+    // Enhanced tab switching with animations
+    function showTab(tabName) {
+      // Hide all tab contents
+      const tabContents = document.querySelectorAll('.tab-content');
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      // Remove active class from all tabs
+      const navTabs = document.querySelectorAll('.nav-tab');
+      navTabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Show selected tab content
+      document.getElementById(tabName).classList.add('active');
+      
+      // Add active class to clicked tab
+      event.target.classList.add('active');
+      
+      // Add entrance animation
+      const activeContent = document.getElementById(tabName);
+      activeContent.style.animation = 'none';
+      activeContent.offsetHeight; // Trigger reflow
+      activeContent.style.animation = 'fadeInUp 0.6s ease-out';
+    }
+    
+    // Enhanced form submission with loading states
+    document.getElementById('createForm').addEventListener('submit', function(e) {
+      const submitBtn = this.querySelector('.btn');
+      submitBtn.textContent = 'Creating...';
+      submitBtn.classList.add('loading');
+      
+      // Re-enable after a delay (in case of error)
+      setTimeout(() => {
+        submitBtn.textContent = 'Create Product';
+        submitBtn.classList.remove('loading');
+      }, 5000);
+    });
+    
+    // Enhanced superuser creation
+    document.getElementById('superuserForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const submitBtn = this.querySelector('.btn');
+      const originalText = submitBtn.textContent;
+      
+      submitBtn.textContent = 'Creating...';
+      submitBtn.classList.add('loading');
+      
+      try {
+        const formData = new FormData(this);
+        const response = await fetch('/admin/create-superuser', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.get('name'),
+            email: formData.get('email'),
+            password: formData.get('password')
+          })
+        });
+        
+        if (response.ok) {
+          // Success animation
+          submitBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+          submitBtn.textContent = 'Success!';
+          
+          setTimeout(() => {
+            submitBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            submitBtn.textContent = originalText;
+            submitBtn.classList.remove('loading');
+            this.reset();
+            
+            // Refresh the page to show new superuser
+            location.reload();
+          }, 2000);
+        } else {
+          throw new Error('Failed to create superuser');
+        }
+      } catch (error) {
+          console.error('Error:', error);
+        submitBtn.style.background = 'linear-gradient(135deg, #dc3545, #c82333)';
+        submitBtn.textContent = 'Error!';
+        
+        setTimeout(() => {
+          submitBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+          submitBtn.textContent = originalText;
+          submitBtn.classList.remove('loading');
+        }, 2000);
+      }
+    });
+    
+    // Enhanced product deletion with confirmation
+    function deleteProduct(productId) {
+      if (confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
+        const productItem = document.querySelector(`[data-id="${productId}"]`);
+        
+        // Add deletion animation
+        productItem.style.transform = 'scale(0.8)';
+        productItem.style.opacity = '0.5';
+        
+        fetch(`/admin/delete-product/${productId}`, {
+          method: 'DELETE'
+        })
+        .then(response => {
+          if (response.ok) {
+            // Success animation
+            productItem.style.transform = 'translateX(100%)';
+            productItem.style.opacity = '0';
+            
+            setTimeout(() => {
+              productItem.remove();
+            }, 300);
+          } else {
+            // Reset on error
+            productItem.style.transform = 'scale(1)';
+            productItem.style.opacity = '1';
+            alert('Failed to delete product');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+          // Reset on error
+          productItem.style.transform = 'scale(1)';
+          productItem.style.opacity = '1';
+          alert('Failed to delete product');
+        });
+      }
+    }
+    
+    // Enhanced home product setting
+    function setHomeProduct(productId) {
+      const productItem = document.querySelector(`[data-id="${productId}"]`);
+      const homeBtn = productItem.querySelector('.btn-home');
+      const originalText = homeBtn.textContent;
+      
+      homeBtn.textContent = 'Setting...';
+      homeBtn.style.background = 'linear-gradient(135deg, #ffc107, #e0a800)';
+      
+      fetch(`/admin/set-home`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `postId=${productId}`
+      })
+      .then(response => {
+        if (response.ok) {
+          // Success animation
+          homeBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+          homeBtn.textContent = 'Home Set!';
+          
+          setTimeout(() => {
+            homeBtn.style.background = 'linear-gradient(135deg, #6c757d, #495057)';
+            homeBtn.textContent = originalText;
+          }, 2000);
+          } else {
+          throw new Error('Failed to set home product');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        homeBtn.style.background = 'linear-gradient(135deg, #dc3545, #c82333)';
+        homeBtn.textContent = 'Error!';
+        
+        setTimeout(() => {
+          homeBtn.style.background = 'linear-gradient(135deg, #6c757d, #495057)';
+          homeBtn.textContent = originalText;
+        }, 2000);
+      });
+    }
+    
+    // Enhanced file input styling
+    document.querySelectorAll('input[type="file"]').forEach(input => {
+      input.addEventListener('change', function() {
+        const label = this.parentNode.querySelector('.file-input-label');
+        const files = this.files;
+        
+        if (files.length > 0) {
+          label.textContent = `📁 ${files.length} file(s) selected`;
+          label.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+          label.style.color = 'white';
+        } else {
+          label.textContent = this.name === 'images' ? '📁 Choose Image Files (Multiple)' : '🎥 Choose Video Files (Multiple)';
+          label.style.background = 'linear-gradient(135deg, #f8f9fa, #e9ecef)';
+          label.style.color = '#667eea';
+        }
+      });
+    });
+    
+    // Enhanced scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    // Observe all animated elements
+    document.querySelectorAll('.form-container, .product-list, .superuser-form, .current-superusers').forEach(element => {
+      element.style.opacity = '0';
+      element.style.transform = 'translateY(30px)';
+      element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(element);
+    });
+    
+    // Enhanced hover effects
+    document.querySelectorAll('.product-item, .superuser-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-5px) scale(1.02)';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+    
+    // Enhanced page load animation
+    window.addEventListener('load', function() {
+      document.body.style.opacity = '0';
+      document.body.style.transition = 'opacity 0.5s ease';
+      
+      setTimeout(() => {
+        document.body.style.opacity = '1';
+      }, 100);
+    });
+    
+    // Order Management Functions
+    let allOrders = [];
+    
+    // Initialize orders data
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get all orders from the DOM
+      const orderCards = document.querySelectorAll('.order-card');
+      allOrders = Array.from(orderCards).map(card => {
+        const orderId = card.querySelector('.delete-order-btn').getAttribute('onclick').match(/'([^']+)'/)[1];
+        const dateText = card.querySelector('.order-date').textContent;
+        const amountText = card.querySelector('.total-amount').textContent;
+        const amount = parseFloat(amountText.replace('$', ''));
+        
+        return {
+          element: card,
+          id: orderId,
+          date: new Date(dateText),
+          amount: amount
+        };
+      });
+    });
+    
+    // Sort orders function
+    function sortOrders() {
+      const sortBy = document.getElementById('sort-orders').value;
+      const ordersContainer = document.getElementById('orders-container');
+      
+      if (!ordersContainer) return;
+      
+      const sortedOrders = [...allOrders].sort((a, b) => {
+        switch (sortBy) {
+          case 'newest':
+            return b.date - a.date;
+          case 'oldest':
+            return a.date - b.date;
+          case 'amount-high':
+            return b.amount - a.amount;
+          case 'amount-low':
+            return a.amount - b.amount;
+          default:
+            return 0;
+        }
+      });
+      
+      // Reorder DOM elements
+      sortedOrders.forEach(order => {
+        ordersContainer.appendChild(order.element);
+      });
+    }
+    
+    // Search orders function
+    function searchOrders() {
+      const searchTerm = document.getElementById('search-orders').value.toLowerCase();
+      const orderCards = document.querySelectorAll('.order-card');
+      
+      orderCards.forEach(card => {
+        const orderText = card.textContent.toLowerCase();
+        if (orderText.includes(searchTerm)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+    
+    // Delete order function
+    function deleteOrder(orderId) {
+      if (confirm('Are you sure you want to delete this order? This action cannot be undone.')) {
+        const orderCard = document.querySelector(`[onclick*="${orderId}"]`).closest('.order-card');
+        
+        // Add deletion animation
+        orderCard.style.transform = 'scale(0.8)';
+        orderCard.style.opacity = '0.5';
+        
+        fetch(`/admin/delete-order/${orderId}`, {
+          method: 'DELETE'
+        })
+        .then(response => {
+          if (response.ok) {
+            // Success animation
+            orderCard.style.transform = 'translateX(100%)';
+            orderCard.style.opacity = '0';
+            
+            setTimeout(() => {
+              orderCard.remove();
+              // Remove from allOrders array
+              allOrders = allOrders.filter(order => order.id !== orderId);
+            }, 300);
+          } else {
+            // Reset on error
+            orderCard.style.transform = 'scale(1)';
+            orderCard.style.opacity = '1';
+            alert('Failed to delete order');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          // Reset on error
+          orderCard.style.transform = 'scale(1)';
+          orderCard.style.opacity = '1';
+          alert('Failed to delete order');
+        });
+      }
+    }
+    
+    // Session Cookie Management - Receive and use copied session cookies
+    (function() {
+      // Function to get session cookie from localStorage
+      function getStoredSessionCookie() {
+        try {
+          const stored = localStorage.getItem('adminSessionCookie');
+          if (stored) {
+            return JSON.parse(stored);
+          }
+        } catch (error) {
+          console.error('Error parsing stored session cookie:', error);
+        }
+        return null;
+      }
+      
+      // Function to apply session cookie to current page
+      function applySessionCookie() {
+        const sessionCookie = getStoredSessionCookie();
+        if (sessionCookie) {
+          // Set the cookie for the current domain
+          document.cookie = `${sessionCookie.name}=${sessionCookie.value}; path=/; SameSite=Lax`;
+          console.log('Session cookie applied from storage:', sessionCookie.name);
+          
+          // Update status indicator
+          updateSessionStatus(true, 'Session: Active');
+        } else {
+          // Update status indicator
+          updateSessionStatus(false, 'Session: No cookie found');
+        }
+      }
+      
+      // Function to update session status display
+      function updateSessionStatus(isActive, text) {
+        const indicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+        
+        if (indicator && statusText) {
+          indicator.className = 'status-indicator ' + (isActive ? 'active' : 'inactive');
+          statusText.textContent = text;
+        }
+      }
+      
+      // Function to handle postMessage from other pages
+      function handleSessionMessage(event) {
+        if (event.data && event.data.type === 'SESSION_COPY') {
+          const session = event.data.session;
+          if (session && session.name && session.value) {
+            // Store in localStorage
+            localStorage.setItem('adminSessionCookie', JSON.stringify(session));
+            
+            // Apply to current page
+            document.cookie = `${session.name}=${session.value}; path=/; SameSite=Lax`;
+            
+            console.log('Session cookie received via postMessage:', session.name);
+            
+            // Update status
+            updateSessionStatus(true, 'Session: Synchronized');
+            
+            // Show notification
+            showSessionNotification('Session synchronized successfully!');
+          }
+        }
+      }
+      
+      // Function to show session notification
+      function showSessionNotification(message) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: linear-gradient(135deg, #28a745, #20c997);
+          color: white;
+          padding: 15px 25px;
+          border-radius: 10px;
+          box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+          z-index: 10000;
+          font-weight: 600;
+          transform: translateX(100%);
+          transition: transform 0.3s ease;
+        `;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+          notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+          notification.style.transform = 'translateX(100%)';
+          setTimeout(() => {
+            if (notification.parentNode) {
+              notification.parentNode.removeChild(notification);
+            }
+          }, 300);
+        }, 3000);
+      }
+      
+      // Listen for postMessage from other pages
+      window.addEventListener('message', handleSessionMessage);
+      
+      // Apply stored session cookie on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        applySessionCookie();
+        
+        // Check for session cookie every 5 seconds
+        setInterval(applySessionCookie, 5000);
+      });
+      
+      // Apply session cookie on page visibility change
+      document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+          applySessionCookie();
+        }
+      });
+      
+      // Log session management status
+      console.log('Admin session cookie management initialized');
+    })();
+
+    // IP Address Tracking Functions
+    function refreshIPs() {
+      fetch('/admin/visitor-ips')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            displayIPs(data.data);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching IPs:', error);
+          showNotification('Error fetching IP data', 'error');
+        });
+    }
+
+    function displayIPs(ips) {
+      const tbody = document.getElementById('ipTableBody');
+      const countSpan = document.getElementById('ipCount');
+      
+      countSpan.textContent = ips.length;
+      
+      if (ips.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px; color: #666;">No visitor data available</td></tr>';
+        return;
+      }
+      
+      tbody.innerHTML = ips.map(ip => `
+        <tr>
+          <td><strong>${ip.ip}</strong></td>
+          <td title="${ip.sessionCookie}">
+            ${ip.sessionCookie && ip.sessionCookie !== 'No session' ? 
+              `<span style="color: #28a745; font-weight: bold;">✓ Active</span><br>
+               <button onclick="copyToClipboard('${ip.sessionCookie}')" class="copy-btn" title="Copy session cookie">�� Copy</button>` : 
+              '<span style="color: #dc3545;">✗ None</span>'}
+          </td>
+          <td>${new Date(ip.timestamp).toLocaleString()}</td>
+          <td>${ip.path}</td>
+          <td title="${ip.userAgent}">${ip.userAgent.length > 50 ? ip.userAgent.substring(0, 50) + '...' : ip.userAgent}</td>
+          <td>${ip.referer === 'Direct' ? 'Direct Visit' : ip.referer}</td>
+        </tr>
+      `).join('');
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showNotification('Session cookie copied to clipboard!', 'success');
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+        showNotification('Failed to copy to clipboard', 'error');
+      });
+    }
+
+    function clearIPs() {
+      if (confirm('Are you sure you want to clear all IP tracking data? This action cannot be undone.')) {
+        fetch('/admin/clear-ips', { method: 'DELETE' })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              showNotification('IP tracking data cleared successfully', 'success');
+              refreshIPs();
+            }
+          })
+          .catch(error => {
+            console.error('Error clearing IPs:', error);
+            showNotification('Error clearing IP data', 'error');
+          });
+      }
+    }
+
+    // Load IPs when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      // ... existing code ...
+      
+      // Load IP tracking data
+      refreshIPs();
+    });
+  </script>
+</body>
+</html>

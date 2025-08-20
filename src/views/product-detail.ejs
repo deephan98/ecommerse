@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= product.name %> - Product Details</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/animation.css">
+  <style>
+    .product-detail-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .product-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .product-header h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+      animation: slideInDown 0.8s ease;
+    }
+    
+    .product-header p {
+      color: #6b7280;
+      font-size: 1.1rem;
+      animation: slideInUp 0.8s ease 0.2s both;
+    }
+    
+    .product-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+    
+    .product-gallery {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      animation: slideInLeft 0.8s ease 0.4s both;
+    }
+    
+    .main-image {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .main-image:hover {
+      transform: scale(1.05);
+    }
+    
+    .image-placeholder {
+      width: 100%;
+      height: 400px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    
+    .thumbnail-gallery {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      overflow-x: auto;
+      padding: 10px 0;
+    }
+    
+    .thumbnail {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      object-fit: cover;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 3px solid transparent;
+    }
+    
+    .thumbnail:hover {
+      transform: scale(1.1);
+      border-color: #667eea;
+    }
+    
+    .thumbnail.active {
+      border-color: #667eea;
+      transform: scale(1.1);
+    }
+    
+    .product-info {
+      animation: slideInRight 0.8s ease 0.6s both;
+    }
+    
+    .product-price {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: #059669;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .price-currency {
+      font-size: 1.5rem;
+      color: #6b7280;
+    }
+    
+    .product-description {
+      color: #4b5563;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 30px;
+      background: #f8fafc;
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 4px solid #667eea;
+    }
+    
+    .product-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: #f8fafc;
+      padding: 15px;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+    }
+    
+    .quantity-selector label {
+      font-weight: 600;
+      color: #374151;
+    }
+    
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .quantity-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .quantity-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .quantity-display {
+      width: 60px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-weight: 600;
+      color: #374151;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 18px 30px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      min-width: 150px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .btn-loading {
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn.loading .btn-text {
+      display: none;
+    }
+    
+    .btn.loading .btn-loading {
+      display: flex;
+    }
+    
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid transparent;
+      border-top: 2px solid currentColor;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .product-features {
+      margin-top: 40px;
+      padding: 25px;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .product-features h3 {
+      color: #1e293b;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+    
+    .features-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .features-list li {
+      padding: 8px 0;
+      color: #4b5563;
+      position: relative;
+      padding-left: 25px;
+    }
+    
+    .features-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #059669;
+      font-weight: bold;
+    }
+    
+    .navigation-links {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 2px solid #f1f5f9;
+    }
+    
+    .nav-link {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      color: #374151;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .nav-link:hover {
+      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+      transform: translateY(-1px);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .product-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      
+      .product-detail-container {
+        padding: 20px 15px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+      
+      .navigation-links {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .product-header h1 {
+        font-size: 2rem;
+      }
+      
+      .product-price {
+        font-size: 2rem;
+      }
+      
+      .quantity-selector {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .quantity-controls {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="product-detail-container">
+    <!-- Product Header -->
+    <div class="product-header">
+      <h1><%= product.name %></h1>
+      <p>Discover the amazing features of this incredible product</p>
+    </div>
+    
+    <!-- Product Content -->
+    <div class="product-content">
+      <!-- Product Gallery -->
+      <div class="product-gallery">
+        <% if (product.images && product.images.length > 0) { %>
+          <img src="<%= product.images[0] %>" alt="<%= product.name %>" class="main-image" id="main-image">
+          <% if (product.images.length > 1) { %>
+            <div class="thumbnail-gallery">
+              <% product.images.forEach((image, index) => { %>
+                <img src="<%= image %>" alt="<%= product.name %>" class="thumbnail <%= index === 0 ? 'active' : '' %>" 
+                     onclick="changeMainImage('<%= image %>', this)">
+              <% }); %>
+            </div>
+          <% } %>
+        <% } else if (product.videos && product.videos.length > 0) { %>
+          <video class="main-image" controls>
+            <source src="<%= product.videos[0] %>" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        <% } else { %>
+          <div class="image-placeholder">
+            <span>Product Image</span>
+          </div>
+        <% } %>
+      </div>
+      
+      <!-- Product Information -->
+      <div class="product-info">
+        <div class="product-price">
+          <span class="price-currency">$</span>
+          <span id="price-amount"><%= product.price.toFixed(2) %></span>
+        </div>
+        
+        <div class="product-description">
+          <%= product.description || 'This is an amazing product with incredible features. Experience the quality and innovation that sets it apart from the competition.' %>
+        </div>
+        
+        <div class="product-actions">
+          <div class="quantity-selector">
+            <label for="quantity">Quantity:</label>
+            <div class="quantity-controls">
+              <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+              <span class="quantity-display" id="quantity-display">1</span>
+              <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+            </div>
+          </div>
+          
+          <div class="action-buttons">
+            <button class="btn btn-primary" onclick="addToCart()" id="add-to-cart-btn">
+              <span class="btn-text">Add to Cart</span>
+              <span class="btn-loading">
+                <div class="spinner"></div>
+                Adding...
+              </span>
+            </button>
+            
+            <a href="/cart" class="btn btn-secondary">View Cart</a>
+          </div>
+        </div>
+        
+        <div class="product-features">
+          <h3>Product Features</h3>
+          <ul class="features-list">
+            <li>High-quality materials and construction</li>
+            <li>Professional-grade performance</li>
+            <li>Easy to use and maintain</li>
+            <li>Comes with warranty</li>
+            <li>Fast shipping available</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Navigation Links -->
+    <div class="navigation-links">
+      <a href="/products" class="nav-link">← Back to Products</a>
+      <a href="/" class="nav-link">← Back to Home</a>
+    </div>
+  </div>
+
+  <script>
+    let currentQuantity = 1;
+    
+    // Change main image when thumbnail is clicked
+    function changeMainImage(imageSrc, thumbnailElement) {
+      const mainImage = document.getElementById('main-image');
+      if (mainImage) {
+        mainImage.src = imageSrc;
+        
+        // Update active thumbnail
+        document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
+        thumbnailElement.classList.add('active');
+      }
+    }
+    
+    // Change quantity
+    function changeQuantity(change) {
+      const newQuantity = currentQuantity + change;
+      if (newQuantity >= 1 && newQuantity <= 99) {
+        currentQuantity = newQuantity;
+        document.getElementById('quantity-display').textContent = currentQuantity;
+        
+        // Update price display if needed
+        const priceElement = document.getElementById('price-amount');
+        const basePrice = parseFloat(document.getElementById('price-amount').textContent);
+        const totalPrice = (basePrice * currentQuantity).toFixed(2);
+        priceElement.textContent = totalPrice;
+      }
+    }
+    
+    // Add to cart
+    async function addToCart() {
+      const btn = document.getElementById('add-to-cart-btn');
+      const originalText = btn.innerHTML;
+      
+      try {
+        // Show loading state
+        btn.classList.add('loading');
+        btn.disabled = true;
+        
+        const response = await fetch('/api/cart/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            productId: '<%= product.id %>',
+            quantity: currentQuantity
+          })
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          
+          // Success animation
+          btn.innerHTML = '<span class="btn-loading">✓ Added to Cart!</span>';
+          btn.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
+          
+          // Reset after delay
+          setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.classList.remove('loading');
+            btn.disabled = false;
+            btn.style.background = '';
+          }, 2000);
+          
+        } else {
+          throw new Error('Failed to add to cart');
+        }
+        
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        
+        // Reset button state
+        btn.innerHTML = originalText;
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        
+        alert('Failed to add product to cart. Please try again.');
+      }
+    }
+    
+    // Enhanced scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    // Observe all animated elements
+    document.querySelectorAll('.product-header, .product-gallery, .product-info, .product-features').forEach(element => {
+      element.style.opacity = '0';
+      element.style.transform = 'translateY(30px)';
+      element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(element);
+    });
+  </script>
+</body>
+</html> 
