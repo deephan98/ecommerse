@@ -1,5 +1,69 @@
 [
   {
+    "id": "6aa206be-2138-472a-8999-534e55da502d",
+    "ip": "127.0.0.1 (Localhost)",
+    "timestamp": "2025-08-20T16:59:11.551Z",
+    "action": "page_visit",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+    "referer": "http://localhost:3000/",
+    "path": "/login",
+    "sessionCookie": "No session",
+    "method": "GET",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+      "accept": "*/*",
+      "accept-language": "en-US,en;q=0.9"
+    }
+  },
+  {
+    "id": "752f0a0b-1e02-40e7-be6b-781e3b554791",
+    "ip": "127.0.0.1 (Localhost)",
+    "timestamp": "2025-08-20T16:59:11.548Z",
+    "action": "page_visit",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+    "referer": "http://localhost:3000/",
+    "path": "/favicon.ico",
+    "sessionCookie": "No session",
+    "method": "GET",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+      "accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+      "accept-language": "en-US,en;q=0.9"
+    }
+  },
+  {
+    "id": "4bfb055c-2913-4814-9fa1-e6965e607e4f",
+    "ip": "127.0.0.1 (Localhost)",
+    "timestamp": "2025-08-20T16:59:11.543Z",
+    "action": "page_visit",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+    "referer": "http://localhost:3000/",
+    "path": "/api/cart",
+    "sessionCookie": "No session",
+    "method": "GET",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+      "accept": "*/*",
+      "accept-language": "en-US,en;q=0.9"
+    }
+  },
+  {
+    "id": "545edb63-a3a8-4356-9e41-0b3f8b1e04b8",
+    "ip": "127.0.0.1 (Localhost)",
+    "timestamp": "2025-08-20T16:59:11.464Z",
+    "action": "page_visit",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+    "referer": "Direct",
+    "path": "/",
+    "sessionCookie": "No session",
+    "method": "GET",
+    "headers": {
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+      "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+      "accept-language": "en-US,en;q=0.9"
+    }
+  },
+  {
     "id": "1e703ea0-6d8a-44af-906f-670e35e007eb",
     "ip": "127.0.0.1 (Localhost)",
     "timestamp": "2025-08-20T15:05:07.303Z",
