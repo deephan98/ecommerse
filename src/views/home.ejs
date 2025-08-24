@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= heroProduct.name %> | E-commerce Store</title>
+  <title>E-commerce Store | Featured Products</title>
   <style>
     /* Reset & Base Styles */
     * {
@@ -1390,24 +1390,28 @@
 
   <section class="gallery">
     <div class="container">
-      <h2 class="gallery-title">Explore <%= heroProduct.name %></h2>
+      <h2 class="gallery-title">Explore Our Products</h2>
       <div class="gallery-grid">
-        <% if (heroProduct.images && heroProduct.images.length > 0) { %>
-          <% heroProduct.images.forEach((image, index) => { %>
-            <div class="gallery-item" data-delay="<%= index * 100 %>">
-              <img src="<%= image %>" alt="<%= heroProduct.name %> image <%= index + 1 %>">
-            </div>
-          <% }); %>
-        <% } %>
-        
-        <% if (heroProduct.videos && heroProduct.videos.length > 0) { %>
-          <% heroProduct.videos.forEach((video, index) => { %>
-            <div class="gallery-item" data-delay="<%= (heroProduct.images ? heroProduct.images.length : 0) * 100 + index * 100 %>">
-              <video muted loop>
-                <source src="<%= video %>" type="video/mp4">
-              </video>
-              <div class="video-indicator">▶</div>
-            </div>
+        <% if (featuredProducts && featuredProducts.length > 0) { %>
+          <% featuredProducts.forEach((product, productIndex) => { %>
+            <% if (product.images && product.images.length > 0) { %>
+              <% product.images.forEach((image, index) => { %>
+                <div class="gallery-item" data-delay="<%= (productIndex * 100) + (index * 50) %>">
+                  <img src="<%= image %>" alt="<%= product.name %> image <%= index + 1 %>">
+                </div>
+              <% }); %>
+            <% } %>
+            
+            <% if (product.videos && product.videos.length > 0) { %>
+              <% product.videos.forEach((video, index) => { %>
+                <div class="gallery-item" data-delay="<%= (productIndex * 100) + ((product.images ? product.images.length : 0) * 50) + (index * 100) %>">
+                  <video muted loop>
+                    <source src="<%= video %>" type="video/mp4">
+                  </video>
+                  <div class="video-indicator">▶</div>
+                </div>
+              <% }); %>
+            <% } %>
           <% }); %>
         <% } %>
       </div>
@@ -1416,13 +1420,10 @@
 
   <section class="cta">
     <div class="container">
-      <h2>Experience <%= heroProduct.name %> Today</h2>
+      <h2>Experience Our Products Today</h2>
       <div class="cta-actions">
-        <button class="cta-button-light add-to-cart-cta" onclick="addToCart('<%= heroProduct.id %>')">
-          <span class="btn-text">Add to Cart</span>
-          <span class="btn-loading" style="display: none;">Adding...</span>
-        </button>
-        <a href="/cart" class="cta-button-light">Continue to Checkout</a>
+        <a href="/products" class="cta-button-light">Browse All Products</a>
+        <a href="/cart" class="cta-button-light">View Cart</a>
       </div>
     </div>
   </section>

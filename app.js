@@ -465,7 +465,35 @@ const requireAuth = (req, res, next) => {
 // Middleware to check if user is admin
 const requireAdmin = (req, res, next) => {
   if (!req.session.user || !req.session.user.isAdmin) {
-    return res.status(403).send('Access denied');
+    return res.status(403).send(`
+      <html>
+        <head>
+          <title>Admin Access Required</title>
+          <style>
+            body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 50px; }
+            .container { background: white; padding: 40px; border-radius: 20px; max-width: 500px; margin: 0 auto; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+            h1 { color: #dc3545; margin-bottom: 20px; }
+            p { color: #666; margin-bottom: 20px; }
+            .admin-info { background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 20px 0; }
+            a { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 12px 25px; border-radius: 25px; text-decoration: none; display: inline-block; margin: 10px; }
+            a:hover { transform: translateY(-2px); }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <h1>🚫 Admin Access Required</h1>
+            <p>You need to be logged in as an administrator to access this page.</p>
+            <div class="admin-info">
+              <strong>Available Admin Accounts:</strong><br>
+              Email: admin@example.com | Password: admin123<br>
+              Email: testadmin@example.com | Password: testpass123
+            </div>
+            <a href="/login">Login</a>
+            <a href="/">Go Home</a>
+          </div>
+        </body>
+      </html>
+    `);
   }
   next();
 };
