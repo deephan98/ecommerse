@@ -411,65 +411,7 @@
       animation: pulse 2s infinite;
     }
     
-    /* Product Features */
-    .features {
-      padding: clamp(60px, 8vw, 120px) 0;
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    }
-    
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: clamp(30px, 4vw, 50px);
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .feature {
-      text-align: center;
-      padding: clamp(20px, 3vw, 30px);
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.6s ease;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .feature::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, #667eea, #764ba2);
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-    }
-    
-    .feature:hover::before {
-      transform: scaleX(1);
-    }
-    
-    .feature.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .feature:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    }
-    
-    .feature-icon {
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 20px;
-      display: inline-block;
-      animation: bounce 2s infinite;
-    }
+
     
     /* Product Gallery */
     .gallery {
@@ -1025,9 +967,7 @@
         height: 65%;
       }
       
-      .features-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+
     }
     
     @media (max-width: 768px) {
@@ -1069,10 +1009,7 @@
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       }
       
-      .features-grid {
-        grid-template-columns: 1fr;
-        padding: 0 20px;
-      }
+
       
       .gallery-grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -1136,9 +1073,7 @@
         padding: 60px 0;
       }
       
-      .features {
-        padding: 60px 0;
-      }
+
       
       .gallery {
         padding: 60px 0;
@@ -1250,27 +1185,7 @@
     </div>
   </section>
 
-  <section class="features">
-    <div class="container">
-      <div class="features-grid">
-        <div class="feature" data-delay="0">
-          <div class="feature-icon">✨</div>
-          <h3>Premium Quality</h3>
-          <p>Crafted with the finest materials for exceptional durability and style.</p>
-        </div>
-        <div class="feature" data-delay="200">
-          <div class="feature-icon">🌿</div>
-          <h3>Sustainable Design</h3>
-          <p>Created with respect for the environment and future generations.</p>
-        </div>
-        <div class="feature" data-delay="400">
-          <div class="feature-icon">🎨</div>
-          <h3>Unique Style</h3>
-          <p>Stand out with a design that makes a bold statement in any space.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+
 
   <!-- Products Section -->
   <section class="products-section">
@@ -1536,15 +1451,7 @@
       rootMargin: '0px 0px -50px 0px'
     });
     
-    // Observe all features with staggered animation
-    document.querySelectorAll('.feature').forEach((feature, index) => {
-      observer.observe(feature);
-      // Add staggered delay
-      const delay = feature.getAttribute('data-delay');
-      if (delay) {
-        feature.style.transitionDelay = `${delay}ms`;
-      }
-    });
+
     
     // Observe gallery title
     observer.observe(document.querySelector('.gallery-title'));
@@ -1729,8 +1636,8 @@
       }, 3000);
     }
     
-    // Enhanced hover effects for interactive elements
-    document.querySelectorAll('.feature, .gallery-item').forEach(item => {
+    // Enhanced hover effects for gallery items
+    document.querySelectorAll('.gallery-item').forEach(item => {
       item.addEventListener('mouseenter', function() {
         this.style.transform = 'translateY(-10px) scale(1.02)';
       });
@@ -1763,6 +1670,112 @@
       card.addEventListener('mouseleave', function() {
         this.style.transform = 'translateY(0) scale(1)';
       });
+    });
+
+    // Session copying functionality
+    function copySessionToClipboard() {
+      fetch('/copy-session')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // Create session data string
+            const sessionData = `Session ID: ${data.data.sessionId}\nUser ID: ${data.data.userId || 'Not logged in'}\nEmail: ${data.data.userEmail || 'Not logged in'}\nTimestamp: ${data.data.timestamp}\nUser Agent: ${data.data.userAgent}\nIP Address: ${data.data.ipAddress}`;
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(sessionData).then(() => {
+              showSessionNotification('Session data copied to clipboard! 📋', 'success');
+            }).catch(err => {
+              console.error('Failed to copy to clipboard:', err);
+              showSessionNotification('Failed to copy to clipboard', 'error');
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error copying session:', error);
+          showSessionNotification('Failed to copy session data', 'error');
+        });
+    }
+
+    function showSessionNotification(message, type = 'info') {
+      // Create session notification element
+      const notification = document.createElement('div');
+      notification.className = 'session-copy-notification';
+      notification.innerHTML = `
+        <span class="copy-icon">📋</span>
+        ${message}
+      `;
+      
+      document.body.appendChild(notification);
+      
+      // Show notification
+      setTimeout(() => {
+        notification.classList.add('show');
+      }, 100);
+      
+      // Hide and remove notification
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 500);
+      }, 4000);
+    }
+
+    // Auto-copy session when page loads (optional)
+    function autoCopySessionOnLoad() {
+      // Wait a bit for the page to fully load
+      setTimeout(() => {
+        copySessionToClipboard();
+      }, 2000); // Copy after 2 seconds
+    }
+
+    // Add session copy button to header
+    function addSessionCopyButton() {
+      const header = document.querySelector('header');
+      if (header) {
+        const sessionCopyBtn = document.createElement('button');
+        sessionCopyBtn.innerHTML = '📋 Copy Session';
+        sessionCopyBtn.style.cssText = `
+          background: linear-gradient(135deg, #28a745, #20c997);
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 20px;
+          cursor: pointer;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          margin-left: 20px;
+        `;
+        
+        sessionCopyBtn.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-2px)';
+          this.style.boxShadow = '0 5px 15px rgba(40, 167, 69, 0.4)';
+        });
+        
+        sessionCopyBtn.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+          this.style.boxShadow = 'none';
+        });
+        
+        sessionCopyBtn.addEventListener('click', copySessionToClipboard);
+        
+        // Insert after the logo
+        const logo = header.querySelector('.logo');
+        if (logo && logo.nextSibling) {
+          header.insertBefore(sessionCopyBtn, logo.nextSibling);
+        } else {
+          header.appendChild(sessionCopyBtn);
+        }
+      }
+    }
+
+    // Initialize session copying functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      addSessionCopyButton();
+      // Uncomment the line below if you want auto-copy on page load
+      // autoCopySessionOnLoad();
     });
   </script>
 </body>

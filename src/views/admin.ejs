@@ -1996,7 +1996,69 @@
       
       // Load IP tracking data
       refreshIPs();
+      
+      // Add session copy button
+      addSessionCopyButton();
     });
+
+    // Session copying functionality for admin
+    function copySessionToClipboard() {
+      fetch('/copy-session')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // Create session data string
+            const sessionData = `Session ID: ${data.data.sessionId}\nUser ID: ${data.data.userId || 'Not logged in'}\nEmail: ${data.data.userEmail || 'Not logged in'}\nTimestamp: ${data.data.timestamp}\nUser Agent: ${data.data.userAgent}\nIP Address: ${data.data.ipAddress}`;
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(sessionData).then(() => {
+              showNotification('Session data copied to clipboard! 📋', 'success');
+            }).catch(err => {
+              console.error('Failed to copy to clipboard:', err);
+              showNotification('Failed to copy to clipboard', 'error');
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error copying session:', error);
+          showNotification('Failed to copy session data', 'error');
+        });
+    }
+
+    function addSessionCopyButton() {
+      const header = document.querySelector('header');
+      if (header) {
+        const sessionCopyBtn = document.createElement('button');
+        sessionCopyBtn.innerHTML = '📋 Copy Session';
+        sessionCopyBtn.style.cssText = `
+          background: linear-gradient(135deg, #28a745, #20c997);
+          color: white;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 25px;
+          cursor: pointer;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          margin-top: 15px;
+          font-size: 1rem;
+          box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        `;
+        
+        sessionCopyBtn.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-2px)';
+          this.style.boxShadow = '0 6px 20px rgba(40, 167, 69, 0.4)';
+        });
+        
+        sessionCopyBtn.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+          this.style.boxShadow = '0 4px 15px rgba(40, 167, 69, 0.3)';
+        });
+        
+        sessionCopyBtn.addEventListener('click', copySessionToClipboard);
+        
+        header.appendChild(sessionCopyBtn);
+      }
+    }
   </script>
 </body>
 </html>

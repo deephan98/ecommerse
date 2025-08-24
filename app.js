@@ -9,7 +9,7 @@ const nodemailer = require('nodemailer');
 
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Email configuration
 const emailTransporter = nodemailer.createTransport({
@@ -1207,6 +1207,38 @@ app.get('/confirmation', requireAuth, (req, res) => {
   res.render('confirmation', {
     user: req.session.user,
     order
+  });
+});
+
+// Session copying functionality
+app.get('/api/session-info', (req, res) => {
+  const sessionInfo = {
+    sessionId: req.sessionID,
+    userId: req.session.user ? req.session.user.id : null,
+    userEmail: req.session.user ? req.session.user.email : null,
+    timestamp: new Date().toISOString(),
+    userAgent: req.headers['user-agent'],
+    ipAddress: getClientIP(req)
+  };
+  
+  res.json(sessionInfo);
+});
+
+// Route to copy session to clipboard (for frontend use)
+app.get('/copy-session', (req, res) => {
+  const sessionData = {
+    sessionId: req.sessionID,
+    userId: req.session.user ? req.session.user.id : null,
+    userEmail: req.session.user ? req.session.user.email : null,
+    timestamp: new Date().toISOString(),
+    userAgent: req.headers['user-agent'],
+    ipAddress: getClientIP(req)
+  };
+  
+  res.json({
+    success: true,
+    message: 'Session data copied to clipboard',
+    data: sessionData
   });
 });
 
