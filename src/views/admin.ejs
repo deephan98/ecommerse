@@ -475,13 +475,24 @@
       box-shadow: 0 8px 20px rgba(220, 53, 69, 0.4);
     }
     
-    .btn-home {
+    .btn-featured {
+      background: linear-gradient(135deg, #ffc107, #ff8f00);
+      color: white;
+      box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+    }
+    
+    .btn-featured:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 193, 7, 0.4);
+    }
+    
+    .btn-not-featured {
       background: linear-gradient(135deg, #6c757d, #495057);
       color: white;
       box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
     }
     
-    .btn-home:hover {
+    .btn-not-featured:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(108, 117, 125, 0.4);
     }
@@ -1264,7 +1275,9 @@
               <div class="product-actions">
                 <a href="/admin/update/<%= post.id %>" class="btn-small btn-edit">Edit</a>
                 <button onclick="deleteProduct('<%= post.id %>')" class="btn-small btn-delete">Delete</button>
-                <button onclick="setHomeProduct('<%= post.id %>')" class="btn-small btn-home">Set as Home</button>
+                <button onclick="toggleFeatured('<%= post.id %>')" class="btn-small <%= post.isFeatured ? 'btn-featured' : 'btn-not-featured' %>">
+                  <%= post.isFeatured ? '★ Featured' : '☆ Not Featured' %>
+                </button>
               </div>
             </div>
           <% }); %>
@@ -1593,44 +1606,54 @@
       }
     }
     
-    // Enhanced home product setting
-    function setHomeProduct(productId) {
+    // Enhanced featured product toggling
+    function toggleFeatured(productId) {
       const productItem = document.querySelector(`[data-id="${productId}"]`);
-      const homeBtn = productItem.querySelector('.btn-home');
-      const originalText = homeBtn.textContent;
+      const featuredBtn = productItem.querySelector('button[onclick*="toggleFeatured"]');
+      const originalText = featuredBtn.textContent;
+      const isCurrentlyFeatured = featuredBtn.classList.contains('btn-featured');
       
-      homeBtn.textContent = 'Setting...';
-      homeBtn.style.background = 'linear-gradient(135deg, #ffc107, #e0a800)';
+      featuredBtn.textContent = 'Updating...';
+      featuredBtn.style.background = 'linear-gradient(135deg, #ffc107, #e0a800)';
       
-      fetch(`/admin/set-home`, {
+      fetch(`/admin/toggle-featured`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: `postId=${productId}`
       })
-      .then(response => {
-        if (response.ok) {
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
           // Success animation
-          homeBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
-          homeBtn.textContent = 'Home Set!';
+          featuredBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+          featuredBtn.textContent = data.isFeatured ? '★ Featured!' : '☆ Not Featured!';
+          
+          // Update button classes and appearance
+          if (data.isFeatured) {
+            featuredBtn.className = 'btn-small btn-featured';
+          } else {
+            featuredBtn.className = 'btn-small btn-not-featured';
+          }
           
           setTimeout(() => {
-            homeBtn.style.background = 'linear-gradient(135deg, #6c757d, #495057)';
-            homeBtn.textContent = originalText;
+            featuredBtn.textContent = data.isFeatured ? '★ Featured' : '☆ Not Featured';
           }, 2000);
-          } else {
-          throw new Error('Failed to set home product');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        homeBtn.style.background = 'linear-gradient(135deg, #dc3545, #c82333)';
-        homeBtn.textContent = 'Error!';
+        } else {
+          throw new Error('Failed to toggle featured status');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        featuredBtn.style.background = 'linear-gradient(135deg, #dc3545, #c82333)';
+        featuredBtn.textContent = 'Error!';
         
         setTimeout(() => {
-          homeBtn.style.background = 'linear-gradient(135deg, #6c757d, #495057)';
-          homeBtn.textContent = originalText;
+          featuredBtn.style.background = isCurrentlyFeatured ? 
+            'linear-gradient(135deg, #ffc107, #ff8f00)' : 
+            'linear-gradient(135deg, #6c757d, #495057)';
+          featuredBtn.textContent = originalText;
         }, 2000);
       });
     }

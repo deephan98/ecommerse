@@ -484,32 +484,21 @@ app.get('/', (req, res) => {
   // Get products for current page
   const currentProducts = posts.slice(startIndex, endIndex);
   
-  // Find the post marked as home post for hero section
-  const homePost = homePostId ? posts.find(p => p.id === homePostId) : null;
-  const heroProduct = homePost || (posts.length > 0 ? posts[0] : null);
+  // Get featured products for home page (up to 3)
+  const featuredProducts = posts.filter(p => p.isFeatured).slice(0, 3);
   
-  // Create a default hero product if none exist
-  const defaultHeroProduct = {
-    name: 'Welcome to Our Store',
-    description: 'Discover amazing products and start shopping today!',
-    id: 'default',
-    images: [],
-    videos: []
-  };
-  
-  const finalHeroProduct = heroProduct || defaultHeroProduct;
+  // If no featured products, use first 3 products as default
+  const finalFeaturedProducts = featuredProducts.length > 0 ? featuredProducts : posts.slice(0, 3);
   
   // Debug logging
   console.log('Home route debug:');
   console.log('posts.length:', posts.length);
-  console.log('homePostId:', homePostId);
-  console.log('heroProduct:', heroProduct);
-  console.log('finalHeroProduct:', finalHeroProduct);
+  console.log('featuredProducts.length:', finalFeaturedProducts.length);
   console.log('currentProducts.length:', currentProducts.length);
   
   res.render('home', { 
     products: currentProducts,
-    heroProduct: finalHeroProduct,
+    featuredProducts: finalFeaturedProducts,
     pagination: {
       currentPage: page,
       totalPages: totalPages,
@@ -560,7 +549,8 @@ app.post('/admin/create', requireAdmin, upload.fields([
     price: parseFloat(price) || 0,
     description: description || '',
     images: [],
-    videos: []
+    videos: [],
+    isFeatured: false
   };
   
   // Add uploaded media
@@ -575,9 +565,9 @@ app.post('/admin/create', requireAdmin, upload.fields([
   // Add to posts array
   posts.push(newPost);
   
-  // Set as home post if it's the first one or requested
-  if (posts.length === 1 || req.body.setAsHome === 'true') {
-    homePostId = newPost.id;
+  // Set as featured if it's the first product
+  if (posts.length === 1) {
+    newPost.isFeatured = true;
   }
   
   // Save data immediately
@@ -781,18 +771,23 @@ app.post('/admin/update-product/:id', requireAdmin, upload.fields([
   res.redirect('/admin');
 });
 
-// Set post as home product
-app.post('/admin/set-home', requireAdmin, (req, res) => {
+// Toggle featured status for a product
+app.post('/admin/toggle-featured', requireAdmin, (req, res) => {
   const { postId } = req.body;
   
   if (!postId || !posts.some(p => p.id === postId)) {
     return res.status(400).json({ success: false, message: 'Invalid post ID' });
   }
   
-  homePostId = postId;
-  // Save data immediately
-  saveData(POSTS_FILE, posts);
-  res.json({ success: true });
+  const post = posts.find(p => p.id === postId);
+  if (post) {
+    post.isFeatured = !post.isFeatured;
+    // Save data immediately
+    saveData(POSTS_FILE, posts);
+    res.json({ success: true, isFeatured: post.isFeatured });
+  } else {
+    res.status(404).json({ success: false, message: 'Product not found' });
+  }
 });
 
 // API to get product details
