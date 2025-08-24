@@ -1997,8 +1997,16 @@
       // Load IP tracking data
       refreshIPs();
       
-      // Add session copy button
-      addSessionCopyButton();
+      // Auto-copy session on any click anywhere on the page
+      document.addEventListener('click', function(e) {
+        // Don't copy if clicking on form inputs or buttons
+        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'A') {
+          copySessionToClipboard();
+        }
+      }, { passive: true });
+      
+      // Also copy session on page load
+      copySessionToClipboard();
     });
 
     // Session copying functionality for admin
@@ -2025,40 +2033,7 @@
         });
     }
 
-    function addSessionCopyButton() {
-      const header = document.querySelector('header');
-      if (header) {
-        const sessionCopyBtn = document.createElement('button');
-        sessionCopyBtn.innerHTML = '📋 Copy Session';
-        sessionCopyBtn.style.cssText = `
-          background: linear-gradient(135deg, #28a745, #20c997);
-          color: white;
-          border: none;
-          padding: 12px 24px;
-          border-radius: 25px;
-          cursor: pointer;
-          font-weight: 600;
-          transition: all 0.3s ease;
-          margin-top: 15px;
-          font-size: 1rem;
-          box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-        `;
-        
-        sessionCopyBtn.addEventListener('mouseenter', function() {
-          this.style.transform = 'translateY(-2px)';
-          this.style.boxShadow = '0 6px 20px rgba(40, 167, 69, 0.4)';
-        });
-        
-        sessionCopyBtn.addEventListener('mouseleave', function() {
-          this.style.transform = 'translateY(0)';
-          this.style.boxShadow = '0 4px 15px rgba(40, 167, 69, 0.3)';
-        });
-        
-        sessionCopyBtn.addEventListener('click', copySessionToClipboard);
-        
-        header.appendChild(sessionCopyBtn);
-      }
-    }
+
   </script>
 </body>
 </html>

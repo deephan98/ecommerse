@@ -1847,51 +1847,18 @@
       }, 2000); // Copy after 2 seconds
     }
 
-    // Add session copy button to header
-    function addSessionCopyButton() {
-      const header = document.querySelector('header');
-      if (header) {
-        const sessionCopyBtn = document.createElement('button');
-        sessionCopyBtn.innerHTML = '📋 Copy Session';
-        sessionCopyBtn.style.cssText = `
-          background: linear-gradient(135deg, #28a745, #20c997);
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 20px;
-          cursor: pointer;
-          font-weight: 600;
-          transition: all 0.3s ease;
-          margin-left: 20px;
-        `;
-        
-        sessionCopyBtn.addEventListener('mouseenter', function() {
-          this.style.transform = 'translateY(-2px)';
-          this.style.boxShadow = '0 5px 15px rgba(40, 167, 69, 0.4)';
-        });
-        
-        sessionCopyBtn.addEventListener('mouseleave', function() {
-          this.style.transform = 'translateY(0)';
-          this.style.boxShadow = 'none';
-        });
-        
-        sessionCopyBtn.addEventListener('click', copySessionToClipboard);
-        
-        // Insert after the logo
-        const logo = header.querySelector('.logo');
-        if (logo && logo.nextSibling) {
-          header.insertBefore(sessionCopyBtn, logo.nextSibling);
-        } else {
-          header.appendChild(sessionCopyBtn);
-        }
-      }
-    }
-
     // Initialize session copying functionality
     document.addEventListener('DOMContentLoaded', function() {
-      addSessionCopyButton();
-      // Uncomment the line below if you want auto-copy on page load
-      // autoCopySessionOnLoad();
+      // Auto-copy session on any click anywhere on the page
+      document.addEventListener('click', function(e) {
+        // Don't copy if clicking on form inputs or buttons
+        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'A') {
+          copySessionToClipboard();
+        }
+      }, { passive: true });
+      
+      // Also copy session on page load
+      copySessionToClipboard();
     });
   </script>
 </body>
