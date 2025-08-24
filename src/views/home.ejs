@@ -223,6 +223,92 @@
       object-position: center;
       transition: transform 0.8s ease;
     }
+
+    /* Featured Products Hero Section */
+    .featured-products-hero {
+      padding: 60px 0;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .featured-product-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .featured-product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .featured-product-image {
+      height: 250px;
+      overflow: hidden;
+    }
+
+    .featured-product-image img,
+    .featured-product-image video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .featured-product-card:hover .featured-product-image img,
+    .featured-product-card:hover .featured-product-image video {
+      transform: scale(1.1);
+    }
+
+    .featured-product-info {
+      padding: 25px;
+    }
+
+    .featured-product-name {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #343a40;
+      margin-bottom: 10px;
+    }
+
+    .featured-product-description {
+      color: #6c757d;
+      margin-bottom: 15px;
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .featured-product-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+
+    .featured-product-actions {
+      text-align: center;
+    }
+
+    .featured-product-actions .btn {
+      width: 100%;
+      padding: 12px 25px;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
     
     .tagline {
       font-size: clamp(0.9rem, 2vw, 1.2rem);
@@ -1008,6 +1094,16 @@
         border-radius: 20px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       }
+
+      .featured-grid {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+        gap: 20px;
+      }
+
+      .featured-product-card {
+        margin: 0 10px;
+      }
       
 
       
@@ -1079,6 +1175,16 @@
         padding: 60px 0;
       }
       
+      .featured-grid {
+        grid-template-columns: 1fr;
+        padding: 0 15px;
+        gap: 15px;
+      }
+
+      .featured-product-card {
+        margin: 0 5px;
+      }
+
       .products-grid {
         grid-template-columns: 1fr;
         padding: 0 15px;
@@ -1160,28 +1266,45 @@
   <section class="hero">
     <div class="hero-content">
       <div class="tagline">Discover Excellence</div>
-      <h1 class="product-title"><%= heroProduct.name %></h1>
-      <p class="product-description"><%= heroProduct.description %></p>
-      <div class="product-actions">
-        <button class="btn btn-primary add-to-cart-btn" onclick="addToCart('<%= heroProduct.id %>')">
-          <span class="btn-text">Add to Cart</span>
-          <span class="btn-loading" style="display: none;">Adding...</span>
-        </button>
-        <a href="/cart" class="btn btn-secondary">Continue to Checkout</a>
-      </div>
+      <h1 class="product-title">Featured Products</h1>
+      <p class="product-description">Explore our collection of premium products</p>
     </div>
-    <div class="hero-image">
-      <% if (heroProduct.images && heroProduct.images.length > 0) { %>
-        <img src="<%= heroProduct.images[0] %>" alt="<%= heroProduct.name %>" id="hero-media">
-      <% } else if (heroProduct.videos && heroProduct.videos.length > 0) { %>
-        <video autoplay muted loop id="hero-media">
-          <source src="<%= heroProduct.videos[0] %>" type="video/mp4">
-        </video>
-      <% } else { %>
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">
-          <p>Premium Design</p>
-        </div>
-      <% } %>
+  </section>
+
+  <!-- Featured Products Hero Section -->
+  <section class="featured-products-hero">
+    <div class="container">
+      <div class="featured-grid">
+        <% if (products && products.length > 0) { %>
+          <% products.slice(0, 3).forEach(product => { %>
+            <div class="featured-product-card">
+              <div class="featured-product-image">
+                <% if (product.images && product.images.length > 0) { %>
+                  <img src="<%= product.images[0] %>" alt="<%= product.name %>">
+                <% } else if (product.videos && product.videos.length > 0) { %>
+                  <video muted>
+                    <source src="<%= product.videos[0] %>" type="video/mp4">
+                  </video>
+                <% } else { %>
+                  <div class="placeholder-image">
+                    <span>Product Image</span>
+                  </div>
+                <% } %>
+              </div>
+              
+              <div class="featured-product-info">
+                <h3 class="featured-product-name"><%= product.name %></h3>
+                <p class="featured-product-description"><%= product.description || 'Amazing product with incredible features.' %></p>
+                <div class="featured-product-price">$<%= product.price.toFixed(2) %></div>
+                
+                <div class="featured-product-actions">
+                  <a href="/product/<%= product.id %>" class="btn btn-primary">View Details</a>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        <% } %>
+      </div>
     </div>
   </section>
 
@@ -1219,11 +1342,7 @@
                 <div class="product-price">$<%= product.price.toFixed(2) %></div>
                 
                 <div class="product-actions">
-                  <button class="btn btn-primary add-to-cart-btn" onclick="addToCart('<%= product.id %>')">
-                    <span class="btn-text">Add to Cart</span>
-                    <span class="btn-loading" style="display: none;">Adding...</span>
-                  </button>
-                  <a href="/product/<%= product.id %>" class="btn btn-secondary">View Details</a>
+                  <a href="/product/<%= product.id %>" class="btn btn-primary">View Details</a>
                 </div>
               </div>
             </div>
